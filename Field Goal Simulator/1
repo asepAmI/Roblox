@@ -1,0 +1,79 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Field Goal Simulator", "GrapeTheme")
+print("Loaded")
+local Game = Window:NewTab("Game")
+local Player = Window:NewTab("Player")
+local Settings = Window:NewTab("Settings")
+local Credits = Window:NewTab("Credits")
+local GameSection = Game:NewSection("Game Stuff")
+local PlayerSection = Player:NewSection("Player Stuff")
+local SettingsSection = Settings:NewSection("Settings Stuff")
+local CreditsSection = Credits:NewSection("My Discord RealGreggperry56#9999")
+local CreditsSection = Credits:NewSection("Join My Discord Server discord.gg/Y8yv8GFaKu")
+
+
+GameSection:NewToggle("AutoKick", "AutoKicks", function(v)
+    getgenv().AutoKick = v
+    while true do
+        if not getgenv().AutoKick then return end
+        local Players = game:GetService("Players");
+        local Char = Players.LocalPlayer.Character;
+
+        Char.Ball.ServerEvent:FireServer("Start")
+        wait(0.1)
+    end
+end)
+
+GameSection:NewToggle("AutoBuy", "AutoBuys items", function(v)
+    getgenv().AutoBuy = v
+
+    while wait do
+        if not getgenv().AutoBuy then return end
+        local ServerEvent = game:GetService("ReplicatedStorage").ServerEvent;
+        local Types = {"White", "Grass", "Wood", "Bronze", "Triangles", "Allstar", "Moon", "Water", "Fire", "Emerald", "Amethyst", "Cloudy", "Money", "Pink Camo", "Gloomy", "Lightning", "Magma", "Galaxy", "Fire & Ice"}
+
+        for i,v in ipairs(Types) do
+            ServerEvent:FireServer("Buy", "Balls", v)
+            ServerEvent:FireServer("Buy", "Helmets", v)
+            ServerEvent:FireServer("Buy", "Jerseys", v)
+            ServerEvent:FireServer("Buy", "Cleats", v)
+            wait(0.1)
+        end
+    end
+end)
+
+GameSection:NewToggle("AutoRebirth", "It Does what it says it Does", function(state)
+    if state then
+        getgenv().AutoRebirth = true
+
+        spawn(function()
+            while wait() do
+                if getgenv().AutoRebirth == true then
+                    local args = {[1] = "Rebirth"}game:GetService("ReplicatedStorage").ServerEvent:FireServer(unpack(args))
+                end
+            end
+        end)
+    else
+        getgenv().AutoRebirth = false
+
+        spawn(function()
+            while wait() do
+                if getgenv().AutoRebirth == true then
+                    local args = {[1] = "Rebirth"}game:GetService("ReplicatedStorage").ServerEvent:FireServer(unpack(args))
+                end
+            end
+        end)
+    end
+end)
+
+GameSection:NewButton("100% accuracy ", "you just gonna have high accuracy ", function()
+    print("Clicked")
+end)
+
+PlayerSection:NewSlider("WalkSpeed", "Changes yo WalkSpeed", 250, 16, function(v)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
+end)
+
+SettingsSection:NewKeybind("Ui Toggle", "Toggle ui", Enum.KeyCode.RightShift, function()
+    Library:ToggleUI()
+end)
